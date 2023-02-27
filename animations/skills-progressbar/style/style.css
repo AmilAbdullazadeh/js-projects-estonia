@@ -1,0 +1,96 @@
+.development_title {
+  text-align: center;
+  font-size: 15px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  margin-top: 50px;
+}
+.development_title h2 {
+  text-align: center;
+}
+
+.skills-bar-container {
+  position: relative;
+  margin: 0 auto;
+  width: 40%;
+  min-width: 350px;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  list-style: none;
+  margin-bottom: 25px;
+}
+.skills-bar-container li {
+  position: relative;
+  width: 100%;
+  padding: 2px 2px;
+}
+
+.progressbar-title {
+  color: #ff6347;
+}
+.progressbar-title h3 {
+  display: inline-block;
+  position: relative;
+  top: 17px;
+  color: #888;
+}
+.progressbar-title .percent {
+  position: absolute;
+  right: 2px;
+  top: 40px;
+}
+
+.bar-container {
+  background: #555;
+  position: relative;
+  width: 100%;
+  height: 10px;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: -15px;
+}
+.bar-container .progressbar {
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  border-radius: 5px;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-timing-function: ease-out;
+          animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  transition: all linear 0.35s;
+}
+
+.progresstomatoes {
+  background: #ff6347;
+}
+
+#progress-html {
+  -webkit-animation-name: progress-html;
+          animation-name: progress-html;
+  -webkit-animation-delay: 0.7s;
+          animation-delay: 0.7s;
+}
+
+#progress-css {
+  -webkit-animation-name: progress-css;
+          animation-name: progress-css;
+  -webkit-animation-delay: 1.4s;
+          animation-delay: 1.4s;
+}
+
+#progress-javascript {
+  -webkit-animation-name: progress-javascript;
+          animation-name: progress-javascript;
+  -webkit-animation-delay: 2.1s;
+          animation-delay: 2.1s;
+}
+
+#progress-react {
+  -webkit-animation-name: progress-react;
+          animation-name: progress-react;
+  -webkit-animation-delay: 2.8s;
+          animation-delay: 2.8s;
+}/*# sourceMappingURL=style.css.map */
