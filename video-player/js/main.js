@@ -17,40 +17,41 @@ function togglePlay() {
 
 toggleBtn.addEventListener("click", togglePlay);
 
-function handleProgress() {
+document.addEventListener("keydown", (e) => {
+  e.code === "Space" && togglePlay;
+});
+
+function updateTimer() {
   const { currentTime, duration } = video;
-  let progressPercantage = (currentTime / duration) * 100;
-  progressBar.style.flexBasis = `${progressPercantage}%`;
+  let calculatePercent = (currentTime / duration) * 100;
+  progressBar.style.flexBasis = `${calculatePercent}%`;
 }
 
-video.addEventListener("timeupdate", handleProgress);
+video.addEventListener("timeupdate", updateTimer);
 
-//TODO:: keydown, keyup
-//TODO:: mousemove, mousedown, mouseup
-
-document.addEventListener("keydown", (event) => {
-  event.code === "Space" && togglePlay();
-});
-
-skipBtns.forEach((btn) => {
-  btn.addEventListener("click", handleSkip);
-});
-
-function handleSkip() {
+function skipTime() {
   video.currentTime += Number(this.dataset.skip);
 }
 
-let isMousedown = false;
-progress.addEventListener("click", scrub);
-progress.addEventListener("mousedown", () => handleMouseEvent(true));
-progress.addEventListener("mousemove", (event) => isMousedown && scrub(event));
-progress.addEventListener("mouseup", () => handleMouseEvent(false));
+skipBtns.forEach((skipBtn) => {
+  skipBtn.addEventListener("click", skipTime);
+});
 
-function handleMouseEvent(handleProps) {
-  isMousedown = handleProps;
+let isMouseDown = false;
+
+progress.addEventListener("mousedown", () => changeStatus(true));
+
+progress.addEventListener("mouseup", () => changeStatus(false));
+
+progress.addEventListener("mousemove", (e) => {
+  isMouseDown && scrub(e);
+});
+
+function changeStatus(propsArgs) {
+  isMouseDown = propsArgs;
 }
 
-function scrub(event) {
-  const scrubTime = (event.offsetX / progress.offsetWidth) * video.duration;
-  video.currentTime = scrubTime;
+function scrub(e) {
+  let clickedTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  video.currentTime = clickedTime;
 }
