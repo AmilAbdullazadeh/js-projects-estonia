@@ -4,10 +4,16 @@ import { MenuList } from './components/MenuList';
 import './global.css';
 
 function App() {
+  const [currentDiffLevel, setCurrentDiffLevel] = useState('Low');
+
+  function handleChangeLevel(level) {
+    setCurrentDiffLevel(level);
+  }
+
   return (
     <div className="container">
-      <MenuList />
-      <DisplayBox />
+      <MenuList handleChange={handleChangeLevel} diffLevel={currentDiffLevel} />
+      <DisplayBox diffLevel={currentDiffLevel} />
     </div>
   );
 }
