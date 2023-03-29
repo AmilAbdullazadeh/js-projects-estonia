@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    color: #fff;
+}
+.img {
+    height: 40px;
+    width: 40px;
+}
+.title {
+    font-size: 25px;
+    font-weight: 400;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+.subtitle {
+    margin-left: 7px;
+    white-space: nowrap;
+    color: #fff;
+}
