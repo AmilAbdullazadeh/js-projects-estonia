@@ -1,22 +1,26 @@
+import { TVShowListItem } from "../TVShowListItem"
 import s from "./style.module.css";
 
+import {BACKDROP_BASE_URL, SMALL_IMG_COVER_BASE_URL} from "../../config"
+
+
 export function TVShowList(props) {
+    const { tvShows, handleClick } = props
+
     return (
         <div>
             <div className={s.title}>You'll probably like :</div>
             <div className={s.list}>
-                <span className={s.tv_show_item}>
-                    <div onClick={onClick_} className={s.container}>
-                        <img
-                            alt={tvShow?.name}
-                            // src={SMALL_IMG_COVER_BASE_URL + tvShow?.backdrop_path}
-                            className={s.img}
-                        />
-                        <div className={s.title}>
-                            {/*name*/}
-                        </div>
-                    </div>
-                </span>
+                    {
+                        tvShows && tvShows?.map(tvShow => (
+                            <span key={tvShow.id} className={s.tv_show_item}>
+                                <TVShowListItem
+                                    _onClick={handleClick}
+                                    tvShow={tvShow}
+                                />
+                            </span>
+                        ))
+                    }
             </div>
         </div>
     );

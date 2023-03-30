@@ -2,31 +2,54 @@ import { useEffect, useState } from "react";
 
 //Components
 import { Logo } from "./components/Logo"
-import {TVShowDetail} from "./components/TVShowDetail";
+import { TVShowDetail } from "./components/TVShowDetail";
+import { TVShowList } from "./components/TVShowList";
 
 import { TVShowAPI } from "./api/tv-shows";
 import s from "./style.module.css";
-import { BACKDROP_BASE_URL } from "./config"
+import {BACKDROP_BASE_URL} from "./config"
 
 //Img
-import logImg from "./assets/img/Screen Shot 2023-03-29 at 17.54.26.png"
+import logoImg from "./assets/img/Screen Shot 2023-03-29 at 17.54.26.png"
 
 
 export function App() {
   const [currentTVShow, setCurrentTVShow] = useState([]);
+  const [tvRecommendations, setTVRecommendations] = useState([])
 
   async function fetchTVShows() {
     try {
       const res = await TVShowAPI.popularTVShows()
-      setCurrentTVShow(res)
+      if (res.length !== 0) {
+        setCurrentTVShow(res)
+      }
     } catch(err) {
-      console.log(err)
+      console.log(err.status_message)
     }
+  }
+
+  async function fetchTVRecommendations(tv_id) {
+    try {
+      const res = await TVShowAPI.tvShowsRecommendations(tv_id)
+      if (res.length !== 0) {
+        setTVRecommendations(res)
+      }
+    } catch (err) {
+      console.log(err.status_message)
+    }
+  }
+
+  function updateTVShow(TVShow) {
+    setCurrentTVShow(TVShow)
   }
 
   useEffect(() => {
     fetchTVShows()
   }, [])
+
+  useEffect(() => {
+    currentTVShow && fetchTVRecommendations(currentTVShow.id)
+  }, [currentTVShow])
 
   return (
       <div
@@ -41,7 +64,11 @@ export function App() {
         <div className={s.header}>
           <div className="row">
             <div className="col-4">
-              <Logo title='8K Movies' subtitle='8k Movies' img={logImg} />
+              <Logo
+                  title='Movie 8k'
+                  subtitle='Movie 8k Movies is the best'
+                  img={logoImg}
+              />
             </div>
             <div className="col-md-12 col-lg-4">
             {/* Search */}
@@ -52,13 +79,15 @@ export function App() {
           {
             currentTVShow && <TVShowDetail
                 title={currentTVShow.name}
+                vote={currentTVShow.vote_average}
                 overview={currentTVShow.overview}
-                vote_average={currentTVShow.vote_average}
             />
           }
         </div>
         <div className={s.recommended_shows}>
-          {/*TVShowList*/}
+          {
+            tvRecommendations && <TVShowList handleClick={updateTVShow} tvShows={tvRecommendations} />
+          }
         </div>
       </div>
   );
