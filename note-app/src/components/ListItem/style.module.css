@@ -1,0 +1,9 @@
+.price {
+  text-align: right;
+  font-weight: bold;
+}
+
+.name, .price {
+  color: #fff !important;
+}
+

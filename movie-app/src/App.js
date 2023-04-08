@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Logo } from "./components/Logo"
 import { TVShowDetail } from "./components/TVShowDetail";
 import { TVShowList } from "./components/TVShowList";
+import { SearchBar } from "./components/Search";
+
 
 import { TVShowAPI } from "./api/tv-shows";
 import s from "./style.module.css";
@@ -43,6 +45,17 @@ export function App() {
     setCurrentTVShow(TVShow)
   }
 
+  async function fetchByTitle(title) {
+    try {
+      const res = await TVShowAPI.tvShowsByTitle(title)
+      if (res.length !== 0) {
+        setCurrentTVShow(res)
+      }
+    } catch (err) {
+      console.log(err.status_message)
+    }
+  }
+
   useEffect(() => {
     fetchTVShows()
   }, [])
@@ -71,7 +84,7 @@ export function App() {
               />
             </div>
             <div className="col-md-12 col-lg-4">
-            {/* Search */}
+             <SearchBar handleSearch={fetchByTitle} />
             </div>
           </div>
         </div>
