@@ -5,67 +5,63 @@ import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { ValidatorService } from "services/validator";
 import s from "./style.module.css";
 
-const VALIDATOR = {
-  title: (value) => {
-    return ValidatorService.min(value, 3) || ValidatorService.max(value, 20);
-  },
-  content: (value) => {
-    return ValidatorService.min(value, 3);
-  },
+const VALIDATION_RULES = {
+  title: (fieldValue) => ValidatorService.min(fieldValue, 3) || ValidatorService.max(fieldValue, 20),
+  content: (fieldValue) => ValidatorService.min(fieldValue, 3),
 };
 
 export function NoteForm({
-  isEditable = true,
-  note,
   title,
-  onClickEdit,
-  onClickDelete,
   onSubmit,
+  note,
+  id,
+  isEditable,
+  changeEditable,
+  onClickDelete,
 }) {
   const [formValues, setFormValues] = useState({
-    title: note?.title || "",
-    content: note?.content || ""
+    title: note.title ? note.title : "",
+    content: note.content ? note.content : "",
   });
   const [formErrors, setFormErrors] = useState({
-    title: note?.title ? undefined : true,
-    content: note?.content ? undefined : true
+    title: note.title ? "" : undefined,
+    content: note.content ? "" : undefined,
   });
 
   const updateFormValues = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
+    const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
     validate(name, value);
   };
 
   const validate = (fieldName, fieldValue) => {
-    setFormErrors({
-      ...formErrors,
-      [fieldName]: VALIDATOR[fieldName](fieldValue),
-    });
+    const errorMessage = VALIDATION_RULES[fieldName](fieldValue);
+    setFormErrors({ ...formErrors, [fieldName]: errorMessage });
   };
 
   const hasError = () => {
-    for (const fieldName in formErrors) {
-      if (formErrors[fieldName]) {
-        return true;
-      }
-    }
-    return false;
+    return Object.values(formErrors).some((field) => field);
+    // for (const field in formErrors) {
+    //   if (formErrors[field]) return true;
+    // }
+    // return false;
   };
+
   const actionIcons = (
     <>
       <div className="col-1">
-        {onClickEdit && <PencilFill onClick={onClickEdit} className={s.icon} />}
+        {isEditable && (
+          <PencilFill onClick={() => changeEditable()} className={s.icon} />
+        )}
       </div>
       <div className="col-1">
-        {onClickDelete && (
-          <TrashFill onClick={onClickDelete} className={s.icon} />
+        {isEditable && (
+          <TrashFill onClick={() => onClickDelete()} className={s.icon} />
         )}
       </div>
     </>
   );
+
   const titleInput = (
     <div className="mb-5">
       <label className="form-label">Title</label>
@@ -76,9 +72,10 @@ export function NoteForm({
         className="form-control"
         value={formValues.title}
       />
-      <FieldError msg={formErrors.title} />
+      <FieldError msg={formErrors?.title} />
     </div>
   );
+
   const contentInput = (
     <div className="mb-5">
       <label className="form-label">Content</label>
@@ -90,16 +87,13 @@ export function NoteForm({
         row="5"
         value={formValues.content}
       />
-      <FieldError msg={formErrors.content} />
+      <FieldError msg={formErrors?.content} />
     </div>
   );
 
   const submitBtn = (
     <div className={s.submit_btn}>
-      <ButtonPrimary
-        isDisabled={hasError()}
-        onClick={() => onSubmit(formValues)}
-      >
+      <ButtonPrimary disabled={hasError()} onClick={() => onSubmit(formValues)}>
         Submit
       </ButtonPrimary>
     </div>
@@ -114,10 +108,10 @@ export function NoteForm({
         {actionIcons}
       </div>
       <div className={`mb-3 ${s.title_input_container}`}>
-        {isEditable && titleInput}
+        {isEditable ? titleInput : note?.title}
       </div>
       <div className="mb-3">
-        {isEditable ? contentInput : <pre>{note.content}</pre>}
+        {isEditable ? contentInput : <pre>{note?.content}</pre>}
       </div>
       {onSubmit && submitBtn}
     </div>

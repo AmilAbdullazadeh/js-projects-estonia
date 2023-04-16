@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { Trash } from "react-bootstrap-icons";
+import { useNavigate } from 'react-router-dom';
 import s from "./style.module.css";
 
-export function TextCard({ title, subtitle, content, onClickTrash, onClick }) {
+export function TextCard({ note, onClickTrash, onClick }) {
   const [isCardHovered, setIsCardHovered] = useState(false);
   const [isTrashHovered, setIsTrashHovered] = useState(false);
 
+  const navigate = useNavigate()
+
 
   function onClickTrash_(e) {
-    console.log("trash");
+    onClickTrash();
     e.stopPropagation();
   }
 
   return (
     <div
-      // onClick
+      onClick={() => navigate(`/note/${note.id}`)}
       className={`card ${s.container}`}
       style={{ borderColor: isCardHovered ? "#0d6efd" : "transparent" }}
       onMouseEnter={() => setIsCardHovered(true)}
@@ -22,7 +25,7 @@ export function TextCard({ title, subtitle, content, onClickTrash, onClick }) {
     >
       <div className="card-body">
         <div className={s.title_row}>
-          <h5 className="card-title">{title}</h5>
+          <h5 className="card-title">{note?.title}</h5>
           <Trash
             size={20}
             onMouseEnter={() => setIsTrashHovered(true)}
@@ -31,8 +34,8 @@ export function TextCard({ title, subtitle, content, onClickTrash, onClick }) {
             onClick={onClickTrash_}
           />
         </div>
-        <h6 className={`card-subtitle mb-2 text-muted`}>{subtitle}</h6>
-        <p className={`card-text ${s.text_content}`}>{content}</p>
+        <h6 className={`card-subtitle mb-2 text-muted`}>{note?.subtitle}</h6>
+        <p className={`card-text ${s.text_content}`}>{note?.content}</p>
       </div>
     </div>
   );
