@@ -1,0 +1,30 @@
+.Button {
+  background-color: transparent;
+  border: 2px solid #007aff;
+  border-radius: 8px;
+  color: #007aff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  transition-duration: 0.2s;
+
+  &:hover {
+    background-color: #007aff;
+    color: #ffffff;
+  }
+
+  &--small {
+    font-size: 14px;
+    padding: 6px 16px;
+  }
+
+  &--large {
+    font-size: 18px;
+    padding: 14px 28px;
+  }
+}

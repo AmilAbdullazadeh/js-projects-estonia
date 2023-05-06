@@ -1,0 +1,29 @@
+.App {
+  font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  text-align: center;
+
+  &--light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  &--dark {
+    background-color: #1c1c1e;
+    color: #ffffff;
+  }
+
+  input {
+    border: 1px solid #ccc;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+}
